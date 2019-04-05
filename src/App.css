@@ -1,3 +1,52 @@
+/*  */
+
+.app {
+  display: flex;
+  flex-flow: row;
+  justify-content: space-evenly;
+}
+
+/* form stuff */
+#form {
+  display: flex;
+  flex-flow: column;
+}
+
+.list {
+  border: 1px solid black;
+  font-size: 35px;
+  text-align: center;
+  min-height: 500px;
+}
+
+.queue,
+.progress,
+.pau {
+  text-align: left;
+  margin: 10px;
+}
+
+.queue {
+  font-size: 15px;
+  background-color: rgb(247, 88, 88);
+  border: 1px solid black;
+  min-width: 200px;
+}
+
+.progress {
+  font-size: 15px;
+  background-color: rgb(70, 188, 235);
+  border: 1px solid black;
+  min-width: 200px;
+}
+
+.pau {
+  font-size: 15px;
+  background-color: rgb(98, 245, 98);
+  border: 1px solid black;
+  min-width: 200px;
+}
+
 .App {
   text-align: center;
 }
@@ -17,7 +66,6 @@
   font-size: calc(10px + 2vmin);
   color: white;
 }
-
 .App-link {
   color: #61dafb;
 }
