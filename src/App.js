@@ -1,16 +1,16 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
-
+import React, { Component } from "react";
+import logo from "./logo.svg";
+import "./App.css";
+//hi
 class App extends Component {
   constructor(props) {
     super(props);
 
     // properties
     this.state = {
-      smoke: '',
+      smoke: "",
       users: [],
-      newUser: { username: '' }
+      newUser: { username: "" }
     };
 
     // bindings
@@ -25,36 +25,45 @@ class App extends Component {
   }
 
   smokeTest() {
-    fetch('/api/smoke')
-      .then((res) => {
+    fetch("/api/smoke")
+      .then(res => {
         return res.json();
       })
-      .then((body) => {
+      .then(body => {
         this.setState({ smoke: body.smoke });
       });
   }
 
   getUsers() {
-    fetch('/api/users')
-      .then((res) => { return res.json(); })
-      .then((body) => {
+    fetch("/api/users")
+      .then(res => {
+        return res.json();
+      })
+      .then(body => {
         this.setState({ users: body });
       });
   }
 
   updateUser(e) {
-    this.setState({ newUser: { username: e.target.value }});
+    this.setState({ newUser: { username: e.target.value } });
   }
 
   createUser() {
     const newUser = this.state.newUser;
-    const headers = { 'Content-Type': 'application/json' };
-    fetch('/api/users', { method: 'POST', body: JSON.stringify(newUser), headers })
-      .then((res) => {
-        return fetch('/api/users')
-          .then((res) => { return res.json(); })
-          .then((body) => { this.setState({ users: body }); });
-      });
+    const headers = { "Content-Type": "application/json" };
+    fetch("/api/users", {
+      method: "POST",
+      body: JSON.stringify(newUser),
+      headers
+    }).then(res => {
+      return fetch("/api/users")
+        .then(res => {
+          return res.json();
+        })
+        .then(body => {
+          this.setState({ users: body });
+        });
+    });
   }
 
   render() {
@@ -63,25 +72,21 @@ class App extends Component {
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
 
-          <div>
-            { this.state.smoke ? this.state.smoke : '' }
-          </div>
+          <div>{this.state.smoke ? this.state.smoke : ""}</div>
 
           <div>
-            {
-              this.state.users.map((user) => {
-                return (
-                  <div>
-                    { user.username }
-                  </div>
-                );
-              })
-            }
+            {this.state.users.map(user => {
+              return <div>{user.username}</div>;
+            })}
           </div>
 
           <div>
             <label> Create new User: </label>
-            <input type="text" value={this.state.newUser.username} onChange={this.updateUser}/>
+            <input
+              type="text"
+              value={this.state.newUser.username}
+              onChange={this.updateUser}
+            />
             <button onClick={this.createUser}>Create User</button>
           </div>
 
