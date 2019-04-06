@@ -7,37 +7,66 @@ class App extends Component {
     super(props);
     this.state = {
       tasks: [
-        { id: 1, title: "Wash You Hair", created_by: "Ronson", status: "pau" },
-        {
-          id: 2,
-          title: "Fry the Bacon",
-          created_by: "Dr Dre",
-          status: "queue"
-        },
-        {
-          id: 3,
-          title: "Jumping Jacks",
-          created_by: "Colonel Mustard",
-          status: "progress"
-        },
-        {
-          id: 4,
-          title: "Pound Drums",
-          created_by: "Travis Barker",
-          status: "progress"
-        },
-        {
-          id: 5,
-          title: "Smoke Weed",
-          created_by: "Jah",
-          status: "queue"
-        }
+        // { id: 1, title: "Wash You Hair", created_by: "Ronson", status: "pau" },
+        // {
+        //   id: 2,
+        //   title: "Fry the Bacon",
+        //   created_by: "Dr Dre",
+        //   status: "queue"
+        // },
+        // {
+        //   id: 3,
+        //   title: "Jumping Jacks",
+        //   created_by: "Colonel Mustard",
+        //   status: "progress"
+        // },
+        // {
+        //   id: 4,
+        //   title: "Pound Drums",
+        //   created_by: "Travis Barker",
+        //   status: "progress"
+        // },
+        // {
+        //   id: 5,
+        //   title: "Smoke Weed",
+        //   created_by: "Jah",
+        //   status: "queue"
+        // }
       ],
+      users: [],
       id: 6,
       title: "",
       created_by: "",
       status: ""
     };
+    //bindings
+    this.getUsers = this.getUsers.bind(this);
+    this.getTasks = this.getTasks.bind(this);
+
+    this.getUsers();
+    this.getTasks();
+  }
+
+  getUsers() {
+    fetch("/api/users")
+      .then(res => {
+        console.log("res", res);
+        // return res.json();
+      })
+      .then(body => {
+        this.setState({ users: body });
+      });
+  }
+
+  getTasks() {
+    fetch("/api/tasks")
+      .then(res => {
+        console.log("res", res);
+        return res.json();
+      })
+      .then(body => {
+        this.setState({ tasks: body });
+      });
   }
 
   handleSubmit = e => {
@@ -149,7 +178,7 @@ class App extends Component {
 
 function Card(props) {
   return (
-    <div class={props.status}>
+    <div className={props.status}>
       <div>{props.title}</div>
       <div>{props.created_by}</div>
       <button onClick={() => props.delete(props.title)}>Delete</button>
