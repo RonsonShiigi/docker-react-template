@@ -40,4 +40,31 @@ router.get("/tasks", (req, res) => {
     });
 });
 
+router.post("/tasks", (req, res) => {
+  const data = req.body;
+  const title = data.title;
+  const body = data.body;
+  const priority = data.priority;
+  const status = data.status;
+  const created_by = data.created_by;
+  const assigned_to = data.assigned_to;
+  console.log("hihi", data);
+  return new req.database.Tasks({
+    title,
+    body,
+    priority,
+    status,
+    created_by,
+    assigned_to
+  })
+    .save()
+    .then(data => {
+      return res.json({ success: true });
+    })
+    .catch(err => {
+      console.log(err);
+      res.sendStatus(500);
+    });
+});
+
 module.exports = router;

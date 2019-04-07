@@ -6,33 +6,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      tasks: [
-        // { id: 1, title: "Wash You Hair", created_by: "Ronson", status: "pau" },
-        // {
-        //   id: 2,
-        //   title: "Fry the Bacon",
-        //   created_by: "Dr Dre",
-        //   status: "queue"
-        // },
-        // {
-        //   id: 3,
-        //   title: "Jumping Jacks",
-        //   created_by: "Colonel Mustard",
-        //   status: "progress"
-        // },
-        // {
-        //   id: 4,
-        //   title: "Pound Drums",
-        //   created_by: "Travis Barker",
-        //   status: "progress"
-        // },
-        // {
-        //   id: 5,
-        //   title: "Smoke Weed",
-        //   created_by: "Jah",
-        //   status: "queue"
-        // }
-      ],
+      tasks: [],
       users: [],
       id: 6,
       title: "",
@@ -65,6 +39,7 @@ class App extends Component {
         return res.json();
       })
       .then(body => {
+        console.log("body", body);
         this.setState({ tasks: body });
       });
   }
@@ -129,8 +104,11 @@ class App extends Component {
               <Card
                 id={task.id}
                 title={task.title}
-                created_by={task.created_by}
+                body={task.body}
+                priority={task.priority}
                 status={task.status}
+                created_by={task.created_by}
+                assigned_to={task.assigned_to}
                 delete={this.delete}
               />
             ))}
@@ -147,8 +125,11 @@ class App extends Component {
               <Card
                 id={task.id}
                 title={task.title}
-                created_by={task.created_by}
+                body={task.body}
+                priority={task.priority}
                 status={task.status}
+                created_by={task.created_by}
+                assigned_to={task.assigned_to}
                 delete={this.delete}
               />
             ))}
@@ -165,8 +146,11 @@ class App extends Component {
               <Card
                 id={task.id}
                 title={task.title}
-                created_by={task.created_by}
+                body={task.body}
+                priority={task.priority}
                 status={task.status}
+                created_by={task.created_by}
+                assigned_to={task.assigned_to}
                 delete={this.delete}
               />
             ))}
@@ -179,8 +163,10 @@ class App extends Component {
 function Card(props) {
   return (
     <div className={props.status}>
-      <div>{props.title}</div>
-      <div>{props.created_by}</div>
+      <div className="taskTitle">{props.title}</div>
+      <div className="taskBody">{props.body}</div>
+      <div className="classPriority">Priority: {props.priority}</div>
+      <div className="created_by">By {props.created_by}</div>
       <button onClick={() => props.delete(props.title)}>Delete</button>
     </div>
   );
@@ -278,3 +264,29 @@ export default App;
   </header>
 </div> */
 }
+
+// // { id: 1, title: "Wash You Hair", created_by: "Ronson", status: "pau" },
+// {
+//   id: 2,
+//   title: "Fry the Bacon",
+//   created_by: "Dr Dre",
+//   status: "queue"
+// },
+// {
+//   id: 3,
+//   title: "Jumping Jacks",
+//   created_by: "Colonel Mustard",
+//   status: "progress"
+// },
+// {
+//   id: 4,
+//   title: "Pound Drums",
+//   created_by: "Travis Barker",
+//   status: "progress"
+// },
+// {
+//   id: 5,
+//   title: "Smoke Weed",
+//   created_by: "Jah",
+//   status: "queue"
+// }
