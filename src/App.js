@@ -94,6 +94,21 @@ class App extends Component {
     this.setState({ [name]: e.target.value });
   };
 
+  updateTask = id => {
+    console.log(id);
+    const tasks = this.state.tasks;
+    tasks.map(task => {
+      if (task.id === id) {
+        task.status = "pau";
+        return task;
+      }
+      return tasks;
+    });
+    this.setState({ tasks });
+
+    // this.setState({ status: "pau" });
+  };
+
   delete = title => {
     const tasks = this.state.tasks.filter(task => title !== task.title);
     this.setState({ tasks });
@@ -142,6 +157,7 @@ class App extends Component {
                   status={task.status}
                   created_by={task.created_by}
                   assigned_to={task.assigned_to}
+                  updateTask={this.updateTask}
                   delete={this.delete}
                 />
               ))}
@@ -223,6 +239,7 @@ function Card(props) {
       <div className="taskBody">{props.body}</div>
       <div className="cardPriority">Priority: {props.priority}</div>
       <div className="created_by">By {props.created_by}</div>
+      <button onClick={() => props.updateTask(props.id)}>Chee</button>
       <button onClick={() => props.delete(props.title)}>Delete</button>
     </div>
   );
