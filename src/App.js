@@ -94,19 +94,22 @@ class App extends Component {
     this.setState({ [name]: e.target.value });
   };
 
-  updateTask = id => {
+  moveUp = id => {
     console.log(id);
     const tasks = this.state.tasks;
     tasks.map(task => {
       if (task.id === id) {
-        task.status = "pau";
-        return task;
+        if (task.status === "queue") {
+          task.status = "progress";
+          return task;
+        } else if (task.status === "progress") {
+          task.status = "pau";
+          return task;
+        }
       }
       return tasks;
     });
     this.setState({ tasks });
-
-    // this.setState({ status: "pau" });
   };
 
   delete = title => {
@@ -136,6 +139,7 @@ class App extends Component {
                   status={task.status}
                   created_by={task.created_by}
                   assigned_to={task.assigned_to}
+                  moveUp={this.moveUp}
                   delete={this.delete}
                 />
               ))}
@@ -157,7 +161,7 @@ class App extends Component {
                   status={task.status}
                   created_by={task.created_by}
                   assigned_to={task.assigned_to}
-                  updateTask={this.updateTask}
+                  moveUp={this.moveUp}
                   delete={this.delete}
                 />
               ))}
@@ -179,6 +183,7 @@ class App extends Component {
                   status={task.status}
                   created_by={task.created_by}
                   assigned_to={task.assigned_to}
+                  moveUp={this.moveUp}
                   delete={this.delete}
                 />
               ))}
@@ -239,7 +244,7 @@ function Card(props) {
       <div className="taskBody">{props.body}</div>
       <div className="cardPriority">Priority: {props.priority}</div>
       <div className="created_by">By {props.created_by}</div>
-      <button onClick={() => props.updateTask(props.id)}>Chee</button>
+      <button onClick={() => props.moveUp(props.id)}>Chee</button>
       <button onClick={() => props.delete(props.title)}>Delete</button>
     </div>
   );
