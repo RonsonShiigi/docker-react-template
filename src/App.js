@@ -10,8 +10,11 @@ class App extends Component {
       users: [],
       id: 6,
       title: "",
+      body: "",
+      priority: "",
+      status: "",
       created_by: "",
-      status: ""
+      assigned_to: ""
     };
     //bindings
     this.getUsers = this.getUsers.bind(this);
@@ -55,6 +58,37 @@ class App extends Component {
     this.setState({ tasks });
   };
 
+  createTask = e => {
+    console.log("booboo");
+    let s = this.state;
+    e.preventDefault();
+
+    const newTask = {
+      title: s.title,
+      body: s.body,
+      priority: s.priority,
+      status: s.status,
+      created_by: s.created_by,
+      assigned_to: s.assigned_to
+    };
+    console.log(newTask);
+
+    const headers = { "Content-Type": "application/json" };
+    fetch("/api/tasks", {
+      method: "POST",
+      body: JSON.stringify(newTask),
+      headers
+    }).then(res => {
+      return fetch("api/tasks")
+        .then(res => {
+          return res.json();
+        })
+        .then(body => {
+          this.setState({ tasks: body });
+        });
+    });
+  };
+
   handleChange = e => {
     const name = e.target.name;
     this.setState({ [name]: e.target.value });
@@ -68,10 +102,10 @@ class App extends Component {
   render() {
     const { tasks } = this.state;
     return (
-      <div class="app">
+      <div className="app">
         <div id="newForm">
-          Create New Task
-          <form id="form" onSubmit={this.handleSubmit}>
+          <h1 className="create">Create New Task</h1>
+          <form id="form" onSubmit={this.createTask}>
             <input
               name="title"
               onChange={this.handleChange}
@@ -79,12 +113,32 @@ class App extends Component {
               placeholder="Title"
             />
             <input
+              name="body"
+              onChange={this.handleChange}
+              type="text"
+              placeholder="Body"
+            />
+            <select name="priority" onChange={this.handleChange}>
+              <option value="0">Select Priority:</option>
+              <option value="asap">ASAP</option>
+              <option value="medium">Medium</option>
+              <option value="chill">Chill</option>
+            </select>
+            <input
               name="created_by"
               onChange={this.handleChange}
               type="text"
               placeholder="Created By"
             />
+
+            <input
+              name="assigned_tp"
+              onChange={this.handleChange}
+              type="text"
+              placeholder="Assigned To"
+            />
             <select name="status" onChange={this.handleChange}>
+              <option value="0">Select Status:</option>
               <option value="queue"> To Do</option>
               <option value="progress"> In Progress</option>
               <option value="pau"> All Pau</option>
@@ -92,7 +146,7 @@ class App extends Component {
             <input type="submit" />
           </form>
         </div>
-        <div class="list" id="queueList">
+        <div className="list" id="queueList">
           To Do
           {tasks
             .filter(task => {
@@ -113,7 +167,7 @@ class App extends Component {
               />
             ))}
         </div>
-        <div class="list" id="progressList">
+        <div className="list" id="progressList">
           In Progress
           {tasks
             .filter(task => {
@@ -134,7 +188,7 @@ class App extends Component {
               />
             ))}
         </div>
-        <div class="list" id="pauList">
+        <div className="list" id="pauList">
           All Pau
           {tasks
             .filter(task => {

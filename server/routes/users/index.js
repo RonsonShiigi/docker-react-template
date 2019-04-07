@@ -48,7 +48,7 @@ router.post("/tasks", (req, res) => {
   const status = data.status;
   const created_by = data.created_by;
   const assigned_to = data.assigned_to;
-  console.log("hihi", data);
+  console.log("posting", data);
   return new req.database.Tasks({
     title,
     body,
@@ -59,6 +59,7 @@ router.post("/tasks", (req, res) => {
   })
     .save()
     .then(data => {
+      // res.redirect("/");
       return res.json({ success: true });
     })
     .catch(err => {
