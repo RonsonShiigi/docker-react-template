@@ -1,22 +1,31 @@
 /*  */
 
-.app {
+/* .app {
+  display: flex;
+  flex-flow: row;
+  justify-content: space-evenly;
+} */
+
+#listContainer {
   display: flex;
   flex-flow: row;
   justify-content: space-evenly;
 }
-
 /* form stuff */
 #form {
   display: flex;
   flex-flow: column;
 }
 
+/* 
+list stuff */
+
 .list {
   border: 1px solid black;
   font-size: 35px;
   text-align: center;
   min-height: 500px;
+  font-family: "Fjalla One", sans-serif;
 }
 
 .queue,
@@ -24,6 +33,8 @@
 .pau {
   text-align: left;
   margin: 10px;
+  padding: 8px;
+  font-family: "Libre Franklin", sans-serif;
 }
 
 .queue {
@@ -45,6 +56,24 @@
   background-color: rgb(98, 245, 98);
   border: 1px solid black;
   min-width: 200px;
+}
+
+/* card stuff */
+.taskTitle {
+  font-weight: bolder;
+  font-size: 18px;
+}
+
+.taskBody {
+  font-size: 15px;
+}
+
+.cardPriority {
+  font-size: 14px;
+}
+
+.created_by {
+  font-size: 12px;
 }
 
 .App {

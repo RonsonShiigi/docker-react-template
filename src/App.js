@@ -103,6 +103,71 @@ class App extends Component {
     const { tasks } = this.state;
     return (
       <div className="app">
+        <div id="listContainer">
+          <div className="list" id="queueList">
+            To Do
+            {tasks
+              .filter(task => {
+                if (task.status === "queue") {
+                  return task;
+                }
+              })
+              .map(task => (
+                <Card
+                  id={task.id}
+                  title={task.title}
+                  body={task.body}
+                  priority={task.priority}
+                  status={task.status}
+                  created_by={task.created_by}
+                  assigned_to={task.assigned_to}
+                  delete={this.delete}
+                />
+              ))}
+          </div>
+          <div className="list" id="progressList">
+            In Progress
+            {tasks
+              .filter(task => {
+                if (task.status === "progress") {
+                  return task;
+                }
+              })
+              .map(task => (
+                <Card
+                  id={task.id}
+                  title={task.title}
+                  body={task.body}
+                  priority={task.priority}
+                  status={task.status}
+                  created_by={task.created_by}
+                  assigned_to={task.assigned_to}
+                  delete={this.delete}
+                />
+              ))}
+          </div>
+          <div className="list" id="pauList">
+            All Pau
+            {tasks
+              .filter(task => {
+                if (task.status === "pau") {
+                  return task;
+                }
+              })
+              .map(task => (
+                <Card
+                  id={task.id}
+                  title={task.title}
+                  body={task.body}
+                  priority={task.priority}
+                  status={task.status}
+                  created_by={task.created_by}
+                  assigned_to={task.assigned_to}
+                  delete={this.delete}
+                />
+              ))}
+          </div>
+        </div>
         <div id="newForm">
           <h1 className="create">Create New Task</h1>
           <form id="form" onSubmit={this.createTask}>
@@ -146,69 +211,6 @@ class App extends Component {
             <input type="submit" />
           </form>
         </div>
-        <div className="list" id="queueList">
-          To Do
-          {tasks
-            .filter(task => {
-              if (task.status === "queue") {
-                return task;
-              }
-            })
-            .map(task => (
-              <Card
-                id={task.id}
-                title={task.title}
-                body={task.body}
-                priority={task.priority}
-                status={task.status}
-                created_by={task.created_by}
-                assigned_to={task.assigned_to}
-                delete={this.delete}
-              />
-            ))}
-        </div>
-        <div className="list" id="progressList">
-          In Progress
-          {tasks
-            .filter(task => {
-              if (task.status === "progress") {
-                return task;
-              }
-            })
-            .map(task => (
-              <Card
-                id={task.id}
-                title={task.title}
-                body={task.body}
-                priority={task.priority}
-                status={task.status}
-                created_by={task.created_by}
-                assigned_to={task.assigned_to}
-                delete={this.delete}
-              />
-            ))}
-        </div>
-        <div className="list" id="pauList">
-          All Pau
-          {tasks
-            .filter(task => {
-              if (task.status === "pau") {
-                return task;
-              }
-            })
-            .map(task => (
-              <Card
-                id={task.id}
-                title={task.title}
-                body={task.body}
-                priority={task.priority}
-                status={task.status}
-                created_by={task.created_by}
-                assigned_to={task.assigned_to}
-                delete={this.delete}
-              />
-            ))}
-        </div>
       </div>
     );
   }
@@ -219,7 +221,7 @@ function Card(props) {
     <div className={props.status}>
       <div className="taskTitle">{props.title}</div>
       <div className="taskBody">{props.body}</div>
-      <div className="classPriority">Priority: {props.priority}</div>
+      <div className="cardPriority">Priority: {props.priority}</div>
       <div className="created_by">By {props.created_by}</div>
       <button onClick={() => props.delete(props.title)}>Delete</button>
     </div>
