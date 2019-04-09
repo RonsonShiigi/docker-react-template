@@ -94,22 +94,40 @@ class App extends Component {
     this.setState({ [name]: e.target.value });
   };
 
-  moveUp = id => {
-    console.log(id);
+  shiftUp = id => {
+    // console.log(id);
     const tasks = this.state.tasks;
+    let editTask = {};
+    const headers = { "Content-Type": "application/json" };
     tasks.map(task => {
       if (task.id === id) {
-        if (task.status === "queue") {
-          task.status = "progress";
-          return task;
-        } else if (task.status === "progress") {
-          task.status = "pau";
-          return task;
-        }
+        editTask.id = id;
+        editTask.title = task.title;
+        editTask.body = task.body;
+        editTask.priority = task.priority;
+        editTask.created_by = task.created_by;
+        editTask.assigned_to = task.assigned_to;
       }
-      return tasks;
+      if (task.status === "queue") {
+        editTask.status = "progress";
+      } else if (task.status === "progress") {
+        editTask.status = "pau";
+      }
+      return editTask;
     });
-    this.setState({ tasks });
+    fetch("/api/tasks/up", {
+      method: "POST",
+      body: JSON.stringify(editTask),
+      headers
+    }).then(res => {
+      return fetch("api/tasks")
+        .then(res => {
+          return res.json();
+        })
+        .then(body => {
+          this.setState({ tasks: body });
+        });
+    });
   };
 
   delete = title => {
@@ -139,7 +157,7 @@ class App extends Component {
                   status={task.status}
                   created_by={task.created_by}
                   assigned_to={task.assigned_to}
-                  moveUp={this.moveUp}
+                  shiftUp={this.shiftUp}
                   delete={this.delete}
                 />
               ))}
@@ -161,7 +179,7 @@ class App extends Component {
                   status={task.status}
                   created_by={task.created_by}
                   assigned_to={task.assigned_to}
-                  moveUp={this.moveUp}
+                  shiftUp={this.shiftUp}
                   delete={this.delete}
                 />
               ))}
@@ -183,7 +201,7 @@ class App extends Component {
                   status={task.status}
                   created_by={task.created_by}
                   assigned_to={task.assigned_to}
-                  moveUp={this.moveUp}
+                  shiftUp={this.shiftUp}
                   delete={this.delete}
                 />
               ))}
@@ -244,7 +262,7 @@ function Card(props) {
       <div className="taskBody">{props.body}</div>
       <div className="cardPriority">Priority: {props.priority}</div>
       <div className="created_by">By {props.created_by}</div>
-      <button onClick={() => props.moveUp(props.id)}>Chee</button>
+      <button onClick={() => props.shiftUp(props.id)}>Move Up</button>
       <button onClick={() => props.delete(props.title)}>Delete</button>
     </div>
   );
@@ -368,3 +386,21 @@ export default App;
 //   created_by: "Jah",
 //   status: "queue"
 // }
+
+// moveUp = id => {
+//   console.log(id);
+//   const tasks = this.state.tasks;
+//   tasks.map(task => {
+//     if (task.id === id) {
+//       if (task.status === "queue") {
+//         task.status = "progress";
+//         return task;
+//       } else if (task.status === "progress") {
+//         task.status = "pau";
+//         return task;
+//       }
+//     }
+//     return tasks;
+//   });
+//   this.setState({ tasks });
+// };
