@@ -107,12 +107,16 @@ class App extends Component {
         editTask.priority = task.priority;
         editTask.created_by = task.created_by;
         editTask.assigned_to = task.assigned_to;
+        if (task.status === "progress") {
+          editTask.status = "pau";
+          return editTask;
+        } else if (task.status === "queue") {
+          editTask.status = "progress";
+          return editTask;
+        }
       }
-      if (task.status === "queue") {
-        editTask.status = "progress";
-      } else if (task.status === "progress") {
-        editTask.status = "pau";
-      }
+
+      console.log(editTask);
       return editTask;
     });
     fetch("/api/tasks/up", {
