@@ -95,7 +95,6 @@ class App extends Component {
   };
 
   shiftUp = id => {
-    // console.log(id);
     const tasks = this.state.tasks;
     let editTask = {};
     const headers = { "Content-Type": "application/json" };
@@ -115,11 +114,45 @@ class App extends Component {
           return editTask;
         }
       }
-
-      console.log(editTask);
-      return editTask;
     });
     fetch("/api/tasks/up", {
+      method: "POST",
+      body: JSON.stringify(editTask),
+      headers
+    }).then(res => {
+      return fetch("api/tasks")
+        .then(res => {
+          return res.json();
+        })
+        .then(body => {
+          this.setState({ tasks: body });
+        });
+    });
+  };
+
+  shiftDown = id => {
+    const tasks = this.state.tasks;
+    let editTask = {};
+    const headers = { "Content-Type": "application/json" };
+    tasks.map(task => {
+      if (task.id === id) {
+        editTask.id = id;
+        editTask.title = task.title;
+        editTask.body = task.body;
+        editTask.priority = task.priority;
+        editTask.created_by = task.created_by;
+        editTask.assigned_to = task.assigned_to;
+        if (task.status === "pau") {
+          editTask.status = "progress";
+          return editTask;
+        } else if (task.status === "progress") {
+          editTask.status = "queue";
+          return editTask;
+        }
+      }
+    });
+    // console.log("outgoing", editTask);
+    fetch("/api/tasks/down", {
       method: "POST",
       body: JSON.stringify(editTask),
       headers
@@ -162,6 +195,7 @@ class App extends Component {
                   created_by={task.created_by}
                   assigned_to={task.assigned_to}
                   shiftUp={this.shiftUp}
+                  shiftDown={this.shiftDown}
                   delete={this.delete}
                 />
               ))}
@@ -184,6 +218,7 @@ class App extends Component {
                   created_by={task.created_by}
                   assigned_to={task.assigned_to}
                   shiftUp={this.shiftUp}
+                  shiftDown={this.shiftDown}
                   delete={this.delete}
                 />
               ))}
@@ -206,6 +241,7 @@ class App extends Component {
                   created_by={task.created_by}
                   assigned_to={task.assigned_to}
                   shiftUp={this.shiftUp}
+                  shiftDown={this.shiftDown}
                   delete={this.delete}
                 />
               ))}
@@ -267,6 +303,7 @@ function Card(props) {
       <div className="cardPriority">Priority: {props.priority}</div>
       <div className="created_by">By {props.created_by}</div>
       <button onClick={() => props.shiftUp(props.id)}>Move Up</button>
+      <button onClick={() => props.shiftDown(props.id)}>Move Down</button>
       <button onClick={() => props.delete(props.title)}>Delete</button>
     </div>
   );
