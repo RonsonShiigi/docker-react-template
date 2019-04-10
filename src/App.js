@@ -167,9 +167,22 @@ class App extends Component {
     });
   };
 
-  delete = title => {
-    const tasks = this.state.tasks.filter(task => title !== task.title);
-    this.setState({ tasks });
+  delete = id => {
+    const headers = { "Content-Type": "application/json" };
+    let data = { useMe: id };
+    fetch("/api/tasks/delete", {
+      method: "POST",
+      body: JSON.stringify(data),
+      headers
+    }).then(res => {
+      return fetch("api/tasks")
+        .then(res => {
+          return res.json();
+        })
+        .then(body => {
+          this.setState({ tasks: body });
+        });
+    });
   };
 
   render() {
@@ -304,7 +317,7 @@ function Card(props) {
       <div className="created_by">By {props.created_by}</div>
       <button onClick={() => props.shiftUp(props.id)}>Move Up</button>
       <button onClick={() => props.shiftDown(props.id)}>Move Down</button>
-      <button onClick={() => props.delete(props.title)}>Delete</button>
+      <button onClick={() => props.delete(props.id)}>Delete</button>
     </div>
   );
 }

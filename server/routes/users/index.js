@@ -127,4 +127,18 @@ router.post("/tasks/down", (req, res) => {
     });
 });
 
+//allows clients to delete cards via browser
+router.post("/tasks/delete", (req, res) => {
+  let id = req.body.useMe;
+  console.log(id);
+  return new req.database.Tasks({ id })
+    .destroy()
+    .then(data => {
+      return res.json({ success: true });
+    })
+    .catch(err => {
+      console.log(err);
+      res.sendStatus(500);
+    });
+});
 module.exports = router;
