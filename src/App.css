@@ -28,6 +28,15 @@ list stuff */
   font-family: "Fjalla One", sans-serif;
 }
 
+#queueList,
+#progressList,
+#pauList {
+  min-width: 300px;
+  max-width: 400px;
+  background-color: rgb(173, 173, 173);
+}
+
+/* card sizing */
 .queue,
 .progress,
 .pau {
@@ -35,6 +44,9 @@ list stuff */
   margin: 10px;
   padding: 8px;
   font-family: "Libre Franklin", sans-serif;
+
+  display: flex;
+  flex-flow: column;
 }
 
 .queue {
@@ -76,6 +88,29 @@ list stuff */
   font-size: 12px;
 }
 
+/* buttons in cards  */
+.cardButton {
+  width: 95px;
+  height: 35px;
+}
+
+.moveButtonContainer {
+  display: flex;
+  flex-flow: row;
+  justify-content: space-between;
+}
+
+.deleteContainer {
+  display: flex;
+  flex-flow: row;
+  justify-content: center;
+}
+
+/* form stuff */
+#form {
+  display: flex;
+  flex-flow: row;
+}
 .App {
   text-align: center;
 }

@@ -94,6 +94,7 @@ class App extends Component {
     this.setState({ [name]: e.target.value });
   };
 
+  //moves cards up to next status
   shiftUp = id => {
     const tasks = this.state.tasks;
     let editTask = {};
@@ -130,6 +131,7 @@ class App extends Component {
     });
   };
 
+  //moves cards down a status
   shiftDown = id => {
     const tasks = this.state.tasks;
     let editTask = {};
@@ -315,9 +317,22 @@ function Card(props) {
       <div className="taskBody">{props.body}</div>
       <div className="cardPriority">Priority: {props.priority}</div>
       <div className="created_by">By {props.created_by}</div>
-      <button onClick={() => props.shiftUp(props.id)}>Move Up</button>
-      <button onClick={() => props.shiftDown(props.id)}>Move Down</button>
-      <button onClick={() => props.delete(props.id)}>Delete</button>
+      <div className="moveButtonContainer">
+        <button
+          className="cardButton"
+          onClick={() => props.shiftDown(props.id)}
+        >
+          ◀
+        </button>
+        <button className="cardButton" onClick={() => props.shiftUp(props.id)}>
+          ▶{" "}
+        </button>
+      </div>
+      <div className="deleteContainer">
+        <button className="deleteButton" onClick={() => props.delete(props.id)}>
+          Delete
+        </button>
+      </div>
     </div>
   );
 }
